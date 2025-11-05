@@ -1,0 +1,72 @@
+/* Sass Aggregator Partial: This file brings the partials in this current directory together 
+   * Unlike CSS variables, Sass mixins and placeholders (%) are not global.
+   * They only exist in the file they are defined in unless explicitly imported 
+     (or @used) in the same Sass compilation scope.
+     
+   * My Global index.css (imported in main.jsx) does see the mixins/utilities 
+   * but individual SCSS module files (i.e, for components and pages) do not.
+   * So when Vite compiles those isolated .module.scss files, 
+   * it has no knowledge of the contents of the files (i.e the mixins, utility classes, e.t.c)
+
+   * When you use @import, Sass merges namespaces globally (kind of like dumping everything in one scope),
+   * but with Vite and PostCSS pipelines (especially alongside Tailwind), it can be unreliable — particularly
+   * because Tailwind runs after Sass processing.
+   * So sometimes those @import statements are processed in unexpected order, leading to missing mixin or not 
+   * applied utility issues.
+
+   * Another issue is that Sass plans to eventually remove @import, so Option A is future-proof.
+
+   * vite config can also be updated to auto-import the global setup (optional, but powerful)
+        export default defineConfig({
+          plugins: [react()],
+          css: {
+            preprocessorOptions: {
+              scss: {
+                additionalData: `@use "@/assets/styles/index" as *;`
+              }
+            } 
+          }
+        })
+
+   * This file comes to the rescue by bringing them together - simply `@use` it at every scss file:
+      `@use "@/assets/styles/index" as *;`
+   * So index.css exposses them ina global manner, and _index.scss exposes them to the page/component's scss  
+*/
+
+/* Sass’s new @use requires explicit extensions and doesn’t automatically resolve 
+ * underscores or missing extensions in all contexts (depends on implementation). This ensures consistency.
+*/
+
+@use "./_variables.scss" as *;
+@use "./_mixins.scss" as *;
+@use "./_utility_classes.scss" as *;
+@use "./_fonts.scss" as *;
+
+/* ================================================================================== */
+/* CONTENT PREVIOUSLY FROM ./index.css */
+
+/*
+ * The Root Stylesheet of the Project
+ * Tailwind + SCSS modularity setup
+ */
+
+/*  Loading Sass Partials First: the @use statements must come first.  
+ * NOTE: the syntax: 
+ *          `@import "./variables.scss";`
+ *       makes an HTTP request for each, hence:
+ * I turned to the sasss option of modules:
+ * (save modules as '_[module_name].scss' & use the `@use` keyword)
+
+ * The '_' tells the sass compiler that the file is a partial and hence 
+ * it should not be compiled to a css file of its own, but rather will be imported 
+ 
+@use "variables";
+@use "mixins";
+@use "fonts";
+*/
+/*
+@import './_variables.scss';
+@import './_mixins.scss';
+@import './_fonts.scss';
+@import './_utility_classes.scss'
+*/

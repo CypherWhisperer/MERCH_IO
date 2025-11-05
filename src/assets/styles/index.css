@@ -1,0 +1,41 @@
+/* Loading Tailwind layers  
+ * The Below syntax is valid for v4 
+      `@import "tailwindcss";` 
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* General/ Default/ Global overrides */
+
+/* General Resets for consistency */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+button {
+  /* Some 'Necessary' resets */
+  border: none;
+  outline: none
+}
+
+.app_container {
+  @apply flex items-center justify-center;
+  /* From Color scheme  */
+  background-color: antiquewhite;
+  color: black;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}

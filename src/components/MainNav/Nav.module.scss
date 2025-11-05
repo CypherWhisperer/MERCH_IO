@@ -1,0 +1,521 @@
+// Main Navigation Styling
+
+/* @use "@/assets/styles/_core.scss" as *; */
+
+/*WARN:  MIXINS - TO TRANSFER TO RESPECTIVE FILE AFTER PROBLEM RESOLUTION */
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+  gap: 1rem;
+}
+
+@mixin colorless-btn {
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+/*================================================= */
+
+/*WARN: VARIABLES - ALSO TO MOVE TO RESPECTIVE FILE ...*/
+
+:root {
+  /* For consistency in the design */
+  --border-radius: 0.6rem;
+
+  /* Color scheme */
+  --primary-color: #242424;
+  --secondary-color: ;
+  --accent-color: ;
+}
+
+/*================================================= */
+
+// Usefull  Sass Variables
+$nav-links-text-base-color: rgb(0, 0, 0);
+$nav-links-text-hover-color: rgb(58, 59, 59);
+
+// THEMING
+$primary-color: antiquewhite;
+
+// CUSTOM PAGE BORDER RADIUS
+$svg-dimensions: 1rem;
+
+// MAIN NAVIGATION (With drop downs)
+$nav-height-desktop: 4rem;
+$nav-height-mobile: 3.5rem;
+$nav-max-height-desktop: max-content;
+$nav-max-height-mobile: max-content;
+$main-nav-height: 4rem;
+
+// MOBILE NAVIGATION
+// Key design decisions (brief): 
+//   - Touch target: 48–64px (WCAG / platform guidance). I pick 48px as minimum.
+//   - Icon visual size (SVG inside button): scale up slightly (1.2–1.4) but keep button element at touch target.
+//   - Nav container width:
+//      - Phones: full-width edge-to-edge (using safe-area insets), corners touching.
+//      - Tablets and up: floating pill that is centered and does not occupy full 100vw —
+//        using max-width with min()/clamp() so it grows nicely.
+//   - Use env(safe-area-inset-*) for iOS notch/home-bar spacing.ensures nav doesn’t overlap phone home bars / notches.
+//   - Use clamp() so sizes scale between small phones and larger tablets.
+//   - Accessibility: add aria-current="page" (or aria-pressed) on the active button and visible focus styles.
+
+$mobile-nav-bg: #242424;
+$mobile-nav-indicator-color: wheat;
+$mobile-nav-svg-fill: wheat;
+$mobile-nav-svg-ative-fill: #242424;
+// Mobile nav sizing (tweak if you want bigger)
+$mobile-nav-border: 5px;
+$mobile-icons-height: 48px;                // button touch target (min) - ensures mobile tappability
+$mobile-icons-visual-scale: 1.3;           // visual scale applied to svg - ensures visibility without increasing hit target
+$mobile-nav-gap-sm: 0.6rem;
+$mobile-nav-gap-lg: 2.5rem;
+$mobile-nav-radius-pill: 3rem;
+$mobile-nav-radius-edge: 0;                // phones edge-to-edge
+$mobile-nav-maxwidth: 720px;               // max width for tablet+ pill
+$mobile-nav-padding-inline: 0.5rem;        // inner padding around the pill
+$mobile-nav-bottom-offset: 0.5rem;         // distance from viewport bottom
+
+
+// Mobile Menu (Humburger/ close)
+$mobile-menu-width: 2rem; // Maybe have it as navigation height
+$mobile-menu-fill: #242424;
+
+// Mobile Drop Down Menu
+$mobile-drop-down-menu-spacing: 1rem; // to be used for a consistent padding and gap
+// fonts on tablet
+$mobile-drop-down-menu-font-size-lg-tablet: 1.3rem;
+$mobile-drop-down-menu-font-size-lg-phone: 0.8rem;
+// fonts on smart phone
+$mobile-drop-down-menu-font-size-sm-tablet: 1.1rem;
+$mobile-drop-down-menu-font-size-sm-phone:0.5rem;
+
+// resets
+header.nav {
+  li {
+    list-style: none;
+  }
+  a {
+      text-decoration: none;
+      color: $nav-links-text-base-color;
+      font-weight: 600;
+  
+      &:hover {
+          color: $nav-links-text-hover-color;
+      }
+  }
+  
+  input {
+      border: none;
+      outline: none;
+  }
+}
+
+header.nav {
+  position: sticky;
+  background-color: $primary-color;
+  @include flex-center(column);
+  gap: 0;
+  flex: 1;
+  top: 0;
+  width: 100%;
+  height: $nav-height-desktop;
+  max-height: $nav-max-height-desktop;
+  transition: all 0.4s ease-in-out;
+
+  .svgs_container {
+    @include flex-center();
+    position: absolute;
+    justify-content: space-between;
+    width: 100%;
+    height: $svg-dimensions;
+    bottom: -$svg-dimensions;
+    
+    svg.border_radius_svg {
+      fill: $primary-color;
+      width:  $svg-dimensions;
+      height: $svg-dimensions;  
+    }
+  }
+
+  .main_navigation {
+    position: relative;
+    @include flex-center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    width: 100%;
+    height: $main-nav-height;
+
+    .drop_downs {
+      @include flex-center;
+      gap: 1.2rem;
+      justify-content: space-between;
+
+      .drop_down {
+        @include flex-center;
+        gap: 0.3rem;
+
+        .arrow_wrapper {
+            position: relative;
+            display: inline-block;
+            width: 1rem; // ensuring a stable layout
+            height: 1rem;
+
+            .arrow {
+                position: absolute;
+                top: 0;
+                left: 0;
+                transform: rotate(0deg);
+                transition: transform 0.5s ease;
+
+                &.rotated {
+                    transform: rotate(-180deg);
+                }
+            }
+        }
+      }
+    }
+
+    // MOBILE MENU ICON
+    .mobile_menu_icon {
+      @include colorless-btn;
+      height: $mobile-menu-width;
+      width: $mobile-menu-width;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        fill: $mobile-menu-fill;
+        transition: opacity 0.4s ease-in-out;
+      }
+
+      .humburger {
+          display: block;
+          opacity: 1;
+        }
+
+      .close {
+        display: none;
+        opacity: 0;
+      }
+
+      &.menu_open {
+        .humburger {
+          display: none;
+          opacity: 0;
+        }
+
+        .close {
+          display: block;
+          opacity: 1;
+        }
+      }
+    }
+    
+    .navigation_desktop {
+      $icons-height: 2rem;
+      @include flex-center;
+      justify-content: space-between;
+      padding-right: 0.5rem;
+
+      li {
+        .search_bar {
+            background-color: wheat;
+            height: 100%;
+            @include flex-center;
+            gap: 0.1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+
+            input {                   
+                color: black;
+                display: block;
+                height: $icons-height;
+                width: auto;
+                padding: 1rem;
+                font-style: italic;
+                background-color: wheat;  
+            }
+
+            button {
+                color: black;
+            }
+        }
+
+        button {
+          @include colorless-btn;
+          color: $nav-links-text-base-color;
+          width: $icons-height;
+          height: $icons-height;
+
+          &:hover {
+            color: $nav-links-text-hover-color;
+          }
+
+          svg {
+            transform: scale(1.5);
+          }
+        }
+      }
+    }
+
+    // MOBILE NAVIGATION 
+    .navigation_mobile_wrapper {
+      @include flex-center;
+      width: 100%;
+      position: fixed;
+      z-index: 1000;
+      right: 0;
+      left: 0;
+      bottom: calc(env(safe-area-inset-bottom, 0) + $mobile-nav-bottom-offset); //safe area
+      padding-left: env(safe-area-inset-left, 0);
+      padding-right: env(safe-area-inset-right, 0);
+      pointer-events: none; // allow only nav to receive pointer events when centered. remove if you have other elements overlapping.
+      transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+
+      &.hidden {
+        transform: translateY(100%); // (GPU-accelerated) to slide it down.
+        opacity: 0; // adds a nice fade.
+        pointer-events: none;  // ensures clicks don’t register while hidden.
+        // could even add a small shadow fade when visible.
+      }
+      
+      .navigation_mobile {
+          @include flex-center;
+          gap: $mobile-nav-gap-lg;
+          justify-content: space-around;
+          pointer-events: auto;
+          background-color: $mobile-nav-bg;
+          border: $mobile-nav-border solid $mobile-nav-bg;
+          border-radius: 3rem;
+          // border-radius: $mobile-nav-radius-edge; // tablet
+          border-radius: $mobile-nav-radius-pill; // smartphone          
+          width: max-content;
+          // width: min($mobile-nav-maxwidth, calc(100% - 2rem)); // never full viewport; leaves margins 
+          max-width: 100%;
+          height: calc(clamp(56px, 5.2vh, 64px)); /* scale a bit larger on big tablets */
+          // height: calc($mobile-icons-height + 3px + $mobile-nav-border);
+  
+          li {
+            @include flex-center;
+            flex: 1 1 auto;  // Even distribution. prevents crowding in small widths.
+            width: $mobile-icons-height;
+            height: $mobile-icons-height;
+
+  
+            button {
+              @include colorless-btn;
+              @include flex-center();
+              display: inline-flex;
+              color: $mobile-nav-svg-fill;
+              position: relative;
+              width: 100%;
+              height: 100%;     
+              border-radius: 50%;
+              cursor: pointer;
+              color: $mobile-nav-svg-fill;
+              transition: transform 0.18s ease-in-out, color 0.18s ease-in-out;         
+
+              &.navigation_mobile_button {
+                z-index: 10;
+                cursor: pointer;
+              }
+
+              // Focus ring for keyboard users
+              &:focus {
+                box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+              }
+  
+              //  INDICATOR 
+              &::after {
+                content: '';
+                position: absolute;
+                // bottom: 0;
+                // left: 0;
+                inset: 0;
+                z-index: -1;
+                width:  $mobile-icons-height;
+                height: $mobile-icons-height;
+                border-radius: 50%;
+                background-color: $mobile-nav-indicator-color;
+                transform: scale(0);
+                transition: transform 0.3s ease-in-out;
+              }
+  
+              svg {
+                width: 1.1em;
+                height: 1.1em;
+                transform: scale($mobile-icons-visual-scale);
+                transition: transform 1.4s ease-in-out;
+              }
+            } // BUTTON
+
+            &.active {
+              button {
+                &::after {
+                  transform: scale(1);
+                }
+
+                svg {
+                  color: $mobile-nav-svg-ative-fill;
+                  transform: scale(1.4);
+                }
+              }
+            }// active
+          }// li
+          
+      }// navigation_mobile
+    }
+  }
+
+  .drop_down_wrapper {
+    @include flex-center;    
+    position: relative;
+    // Keeping the wrapper's max-height as max-content or auto so
+    // it always adapts to whatever's inside it. the child elements: 
+    // (.drop_down_content OR .mobile_drop_down_menu) animate their own max-height 0 -> X
+    max-height: max-content; // max-content/ auto will still work fine
+    width: 100%;
+    justify-content: flex-start;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition:
+      padding 0.2s ease-in-out;
+
+    &.expanded {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      transition-delay: 0.05s;
+    }
+
+    .drop_down_content {
+      @include flex-center;
+      width: 100%;
+      height: 100%;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      justify-content: flex-start;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition:
+        // max-height 0.5s ease-in-out,
+        // opacity 0.5s ease-in-out,
+        // transform 0.5s ease-in-out;
+        all 0.5s ease-in-out;
+
+      &.visible {
+        // max-height: 40rem;
+        max-height: 90vh; // Playing with fire - animating dynamic values might cause glitches
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0.1s;
+      }
+
+      .drop_down_links {
+        width: 100%;
+        @include flex-center(column);
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0 4rem;
+
+        .drop_down_link {
+            // text-transform: capitalize !important;
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            padding: 0 2rem;
+            transform: scale(1);
+            transition: transform 0.2s ease-in-out;
+            width: 100%;
+
+            &:hover {
+                transform: scale(1.3) translateX(10%);
+            }
+        }
+      }
+    }
+
+    // MOBILE CONTENTS
+    .mobile_drop_down_menu {     
+      @include flex-center();
+      width: 100%;
+      height: 100%;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      padding: 0 $mobile-drop-down-menu-spacing;      
+      gap: calc($mobile-drop-down-menu-spacing + 1rem);
+      width: 100%;
+      height: 100%;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.4s ease-in-out;
+
+      &.open {
+        // max-height: 40rem; // A value that can contain all drop downs and their links
+        max-height: 90vh; // Playing with fire - animating dynamic values might cause glitches
+        opacity: 1;
+        padding: $mobile-drop-down-menu-spacing;
+        transform: translateY(0);
+      }
+
+      .mobile_drop_down_menu_links_container {
+        @include flex-center(column);
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        width: 100%;   
+        min-height: 9.2rem;
+        height: max-content;
+        max-height: 11rem;
+        
+        min-width: 9rem;
+        width: 9rem;
+        // width: max-content;
+        max-width: 10rem;
+
+        
+        .title_link {
+          width: 100%;
+          font-size: $mobile-drop-down-menu-font-size-lg-tablet;
+          font-weight: 700;
+          letter-spacing: 2px;          
+        }
+        
+        .mobile_drop_down_menu_link {
+          font-size: $mobile-drop-down-menu-font-size-sm-tablet;
+          margin: 0.2rem 0;
+          font-weight: 500;
+          letter-spacing: 1px;
+        }
+      }
+    }
+  }
+}
+
+// MEDIA QUERIES
+@media screen and (max-width: 900px){
+  .navigation-mobile {
+    height: calc($mobile-icons-height + 3px + $mobile-nav-border);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  header.nav {
+    .mobile_drop_down_menu {
+      gap: $mobile-drop-down-menu-spacing;
+    }
+  }
+}
+
+@media screen and (max-width: 600px){
+  .navigation_mobile {
+    gap: $mobile-nav-gap-sm;
+  }
+}
