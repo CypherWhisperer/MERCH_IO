@@ -42,6 +42,12 @@
 @use "./_utility_classes.scss" as *;
 @use "./_fonts.scss" as *;
 
+// Sass can automatically resolve _filename.scss when using @use "filename"
+// @use "./variables" as *;
+// @use "./mixins" as *;
+// @use "./utility_classes" as *;
+// @use "./fonts" as *;
+
 /* ================================================================================== */
 /* CONTENT PREVIOUSLY FROM ./index.css */
 

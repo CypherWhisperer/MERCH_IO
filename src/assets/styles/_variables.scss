@@ -11,4 +11,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* For consistency in the design */
+  --border-radius: 0.6rem;
+
+  /* Color scheme */
+  --primary-color: #242424;
+  --secondary-color: ;
+  --accent-color: ;
 }

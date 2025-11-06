@@ -23,8 +23,10 @@ export default defineConfig({
     // postcss,
     preprocessorOptions: {
       scss: {
+        includePaths: ["src"], // allows `@use "assets/styles/core" as *`
         // Allowing every `scss` file to "see" core.scss automatically
-        additionalData: `@use "@/assets/styles/core" as *;`,
+        // additionalData: `@use "@/assets/styles/core" as *;`,
+        // additionalData: `@use "./src/assets/styles/_core.scs" as *;\n`,
       },
     },
   },

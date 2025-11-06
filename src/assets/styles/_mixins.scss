@@ -3,4 +3,11 @@
   align-items: center;
   justify-content: center;
   flex-direction: $direction;
+  gap: 1rem;
+}
+
+@mixin colorless-btn {
+  border: none;
+  background-color: transparent;
+  outline: none;
 }
