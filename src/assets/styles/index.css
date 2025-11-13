@@ -16,6 +16,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Ensuring all pointer events are deliberate */
+  /* pointer-events: none; */
 }
 
 img {
@@ -24,11 +26,27 @@ img {
   object-fit: cover;
 }
 
+/* GLOBALE RESETS  */
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
 button {
   /* Some 'Necessary' resets */
   border: none;
   outline: none
 }
+
+/* GLOBAL CLASSES */
 
 .app_container {
   @apply flex items-center justify-center;

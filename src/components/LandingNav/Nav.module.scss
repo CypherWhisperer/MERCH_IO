@@ -1,2 +1,439 @@
 @use "../../assets/styles/_core.scss" as *;
 @use "../../assets/styles/_mixins.scss" as *;
+
+// THEMING AND COLOR SCHEME
+$text-color-primary: antiquewhite;
+$text-color-secondary: #000;
+
+// HEADER
+$header-height: 3rem;
+$header-padding: 0;
+$header-radius: 1rem;
+// $header-bg: linear-gradient(to right, #8b5cf6, #6366f1); // violet to indigo
+$header-bg: rgba(255, 255, 255, 0.1);
+
+// LOGO & SOCIALS CONTAINER
+// LOGO
+$logo-width: 3rem; // this will determine the width of the container too
+$logo-spacing: 0.5rem;
+
+// ANIMATION
+$animation-duration-total: 0.4s;
+$animation-timing-function: ease-in-out;
+
+// NAVIGATION BUTTON
+$nav-bg: red;
+$nav-button-dimensions: 3rem;
+$nav-button-hamburger-lines-width: calc($nav-button-dimensions - calc($nav-button-dimensions * 0.1));
+$nav-button-hamburger-lines-height: calc($nav-button-dimensions * (1/7));
+$nav-button-hamburger-lines-border-radius: 9999px; // mimicing Tailwind rounding
+
+header.nav_container {
+    position: fixed;
+    @include flex-center;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0;
+    flex: 1;
+    height: auto;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    padding: $header-padding;
+    background: $header-bg;
+    backdrop-filter: blur(10px);
+    color: $text-color-primary;
+    // border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    @include animate(background, 0.5s, ease-in-out);
+    
+    &.open {
+        > .logo {
+            width: 0;
+            opacity: 0;
+            transform: translateX($logo-width);
+            // transition-delay: 0s; // the transition with this isn't as good
+            transition-delay: $animation-duration-total;
+        }
+    }
+
+    > .logo{
+        flex: 1;
+        width: $logo-width;
+        font-size: $logo-width;
+        line-height: 1;
+        font-weight: 700;
+        color: $text-color-primary;
+        user-select: none;
+        transform: translateX(0);
+        @include animate();
+        // transition-delay: $animation-duration-total;
+        transition-delay: 0.2s;
+    } // LOGO
+        
+    nav.navigation {
+        position: relative;
+        z-index: 120;
+        top: 0;
+        right: 0;
+        @include flex-center(column);
+        justify-content: flex-start;
+        align-items: flex-end;
+        gap: 0;
+        padding: $logo-spacing;
+        background: $nav-bg;
+        border-radius: 0 $header-radius $header-radius 0;
+    
+        // ORIGINAL SIZE
+        width:  calc($nav-button-dimensions + $logo-spacing);
+        height: calc($nav-button-dimensions + $logo-spacing); 
+        
+        transition: all $animation-duration-total $animation-timing-function;
+
+        &.open {
+            width: 100vw;
+            height: 100vh;
+            background: $nav-bg;
+            border-radius: $header-radius;
+            // @include border-radius(); // rounding all edges
+
+            > * {
+              border: 1px solid black;
+            }
+        }
+
+        .secondary_nav {
+            @include flex-center();
+            justify-content: space-between;
+            width: 100%;
+
+            &.open {
+                > .logo {
+                    padding: 0;
+                    width: $logo-width;
+                    opacity: 1;
+                    transform: translateX(0);
+                    transition-delay: $animation-duration-total;
+                }
+            }
+            
+            > .logo {
+                font-size: $logo-width;
+                color: $text-color-secondary;
+                line-height: 1;
+                font-weight: 700;                
+                user-select: none;
+                height: $logo-width;
+                width: 0;
+                opacity: 0;
+                transform: translateX(-$logo-width);
+                @include animate();
+                transition-delay: 0s;
+            }
+
+            button.nav_button{
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                height: $nav-button-dimensions;
+                width:  $nav-button-dimensions;
+                background: transparent;
+                transform: translateX(-0.7rem);
+                // background-color: rgba(255,255,255,0);
+                @include animate(all, $animation-duration-total, $animation-timing-function);
+                pointer-events: auto;
+
+                //TODO: try the color `lighten/ darken` functionality - 4 the strokes - for the hover state
+    
+                &.open {
+                    position: relative;
+                    span.stroke_1,
+                    span.stroke_2,
+                    span.stroke_3 {
+                        background-color: $text-color-secondary;
+                    }
+                }
+    
+                // HAMBURGER LINES
+                span.stroke_1,
+                span.stroke_2,
+                span.stroke_3{
+                    position: absolute;
+                    height: $nav-button-hamburger-lines-height;
+                    background-color: $text-color-primary;
+                    border-radius: $nav-button-hamburger-lines-border-radius;
+                    width: $nav-button-hamburger-lines-width;
+                }           
+                span.stroke_3{
+                  width: calc($nav-button-hamburger-lines-width * 0.55); // shorter bottom stroke
+                } // STROKE 3
+            } // NAV BUTTON
+        }// SECONDARY NAVIGATION
+
+        .navigation_container {
+            @include flex-center();
+            justify-content: space-between;
+            width: 100%;
+            height: 0;
+            display: none;
+            
+            & * {
+                display: none;
+            }
+  
+            &.open {
+                display: flex;
+                height: 100%;
+  
+                * {
+                  display: block;
+                }
+            }
+            
+            .logo_socials_container {     
+                height: 100%;
+                width: $logo-width;
+                @include flex-center(column);
+                justify-content: space-between;
+                margin-left: $logo-spacing;
+        
+                .social_links_container {
+                    flex: 1;
+                    @include flex-center(column);
+                    justify-content: flex-end;
+                    padding-bottom: $logo-width;
+                    width: 100%;
+                    opacity: 0;
+                    transform: translateY(calc($logo-width * 2));
+                    transition: opacity 0.6s ease, transform 0.6s ease;
+        
+                    &.open {
+                        opacity: 1;
+                        transform: translateY(0);
+                        pointer-events: auto;
+                    }
+        
+                    .social_links { // ul
+                        @include flex-center(column);
+
+                        .logo_container { // li
+                            @include flex-center();
+                            width: $logo-width;
+                            height: $logo-width;
+        
+                            a {
+                                @include flex-center();
+                                width: 100%;
+                                height: auto;
+                                max-height: 100%;
+                                
+                                svg {
+                                    width: 100%;
+                                    height: 100%;
+                                    fill: $text-color-secondary;                   
+                                }
+                            } // ANCHOR TAG LINK
+                        } // LOGO CONTAINER
+                    } // SOCIAL LINKS
+                } // SOCIAL LINKS CONTAINER
+        
+            } // LOGO SOCIALS CONTAINER
+
+            .navigation_menu {            
+                @include flex-center(column, 0.5rem);
+                justify-content: space-between;
+                width: 100%;
+                height: 100%;
+    
+                .sections_links {                    
+                    @include flex-center(column, 0);
+                    align-items: flex-start;
+                    width: 100%;
+                    flex: 9;
+                    height: 90%;
+    
+                    li.link_container {
+                        flex: 1 1 0; // equal distribution
+                        @include flex-center(row, 0);
+                        justify-content: flex-start;
+                        overflow: hidden; // prevents text from overflowing
+                        width: 100%;
+                        transition: flex $animation-duration-total $animation-timing-function;
+    
+                        // THE GROWTH - SQUEEZE ILLUSION
+                        &:hover, 
+                        &.focused { // .focused for JS/tap state
+                            flex: 2 2 0;
+    
+                            .link {
+                                transform: scaleY(1.3);  
+                                // color: $text-color-primary;                      
+                            }
+                        }
+    
+                        .link {
+                            width: 100%;                        
+                            height: 100%;
+                            overflow: hidden;
+                            place-content: center;
+                            // use a fraction of the parent height for font-size 
+                            // font-size: clamp(0.375rem, calc(var(--landing-nav-menu-link-height, 1.25rem) * 0.45), 1.5rem);
+                            // font-size: clamp(0.375rem, var(--landing-nav-menu-link-height, 1.25rem), 1.5rem);
+                            // font-size: var(--landing-nav-menu-link-height);   
+                            // color: $text-color-secondary;           
+                            font-size: 6rem;
+                            font-weight: 900;
+                            letter-spacing: 2px;
+                            line-height: 1;
+                            transition: transform, 0.2s, ease, color 1.5s ease;
+                        }
+                    }// LINK CONTAINER
+                }// SECTIONS LINKS
+    
+                .sign_up_cta {
+                    @include flex-center(row, 2rem);
+                    width: 100%;
+                    height: 10%;
+                    background-color: $text-color-secondary;
+                    color: $nav-bg;
+                    font-size: 3rem;
+                    font-weight: 900;
+                    letter-spacing: 2px;
+                    flex: 1;              
+                    @include animate();  
+
+                    &:hover {
+                        letter-spacing: 5px;
+                        .arrow {
+                            transform: translateX(2rem);
+                        }
+                    }
+
+                    .arrow {
+                        transform: translateX(0);
+                        @include animate();
+                    }
+
+                }
+            }// NAVIGATION MENU
+        }// NAVIGATION CONTAINER
+    } // NAVIGATION
+} // NAV CONTAINER
+
+// MEDIA QUERIES
+@media screen and (max-width: 850px){
+    header.nav_container {
+        nav.navigation {
+            .navigation_container{
+              .navigation_menu {
+                  .sections_links {
+                      li.link_container {
+                          .link {
+                              font-size: 5.7rem;
+                          }
+                      }
+                  }
+              }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px){
+    header.nav_container {
+        nav.navigation {
+            .navigation_container{
+              .navigation_menu {
+                  .sections_links {
+                      li.link_container {
+                          .link {
+                              font-size: 5rem;
+                          }
+                      }
+                  }
+              }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 650px){
+    header.nav_container {
+        nav.navigation {
+            .navigation_container{
+              .navigation_menu {
+                  .sections_links {
+                      li.link_container {
+                          .link {
+                              font-size: 4rem;
+                          }
+                      }
+                  }
+              }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 540px){
+    header.nav_container {
+        nav.navigation {
+            .navigation_container{
+              .navigation_menu {
+                  .sections_links {
+                      li.link_container {
+                          .link {
+                              font-size: 3.5rem;
+                          }
+                      }
+                  }
+              }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 450px){
+    header.nav_container {
+        nav.navigation {
+            .navigation_container{
+              .navigation_menu {
+                  .sections_links {
+                      li.link_container {
+                          .link {
+                              font-size: 2.5rem;
+                          }
+                      }
+                  }
+
+                  .sign_up_cta {
+                    gap: 1rem;
+                    font-size: 1.5rem;
+                  }
+              }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 375px){
+    header.nav_container {
+        nav.navigation {
+            .navigation_container{
+              .navigation_menu {
+                  .sections_links {
+                      li.link_container {
+                          .link {
+                              font-size: 2rem;
+                          }
+                      }
+                  }
+
+                  .sign_up_cta {
+                    gap: 0.5rem;
+                    font-size: 1.2rem;
+                  }
+              }
+            }
+        }
+    }
+}

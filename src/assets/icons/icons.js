@@ -18,15 +18,24 @@ import {
 // FA 6
 
 import { 
+    // LOGOS
+    FaXTwitter,
+
+    // ICONS
     FaRegEye, 
     FaRegEyeSlash,
     FaCartShopping,
     FaGear,
+    FaArrowRightLong,
 } from "react-icons/fa6";
 
 // AI
 import { 
-    AiFillHome
+    // LOGOS
+    AiFillInstagram,
+
+    //ICONS
+    AiFillHome    
 } from "react-icons/ai";
 
 // RI
@@ -38,6 +47,11 @@ import {
 import { 
     HiMenu 
 } from "react-icons/hi";
+
+// IO
+import {
+     IoLogoWhatsapp 
+} from "react-icons/io";
 
 // IO5
 import { 
@@ -63,6 +77,12 @@ export {
     RiArrowDownSLine,
     HiMenu,
     IoClose,
+
+    // - LANDING NAVIGATION
+    AiFillInstagram,
+    IoLogoWhatsapp,
+    FaXTwitter,
+    FaArrowRightLong,
     
     // - SIGN IN OUT
     FaArrowLeft,

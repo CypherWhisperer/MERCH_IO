@@ -1,3 +1,6 @@
+// This File is a Scss partial containing the variables used in this project 
+// Both CSS and Scss variables 
+
 :root {
   font-family: Poppins, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -16,6 +19,7 @@
   --border-radius: 0.6rem;
 
   /* Color scheme */
+  --page-background: var(background-color);
   --primary-color: #242424;
   --secondary-color: ;
   --accent-color: ;

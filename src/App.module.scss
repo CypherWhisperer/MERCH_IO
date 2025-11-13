@@ -1,2 +1,10 @@
-@use "../../assets/styles/_core.scss" as *;
-@use "../../assets/styles/_mixins.scss" as *;
+@use "./assets/styles/_core.scss" as *;
+@use "./assets/styles/_mixins.scss" as *;
+
+.app_container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--page-background);
+}

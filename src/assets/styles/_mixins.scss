@@ -1,13 +1,24 @@
-@mixin flex-center($direction: row) {
+// This is a scss partial containing definitions for mixins used through the project 
+
+@mixin flex-center($direction: row, $gap: 1rem) {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: $direction;
-  gap: 1rem;
+  gap: $gap;
 }
 
 @mixin colorless-btn {
   border: none;
   background-color: transparent;
   outline: none;
+}
+
+@mixin border-radius($radius: 1rem) {
+  border-radius: $radius;
+  overflow: hidden;
+}
+
+@mixin animate($property: all, $duration: 0.4s, $timing: ease-in-out) {
+  transition: $property $duration $timing;
 }
