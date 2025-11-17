@@ -1,22 +1,27 @@
 @use "../../assets/styles/_core.scss" as *;
 @use "../../assets/styles/_mixins.scss" as *;
+@use "../../assets/styles/_variables.scss" as *;
 
 /*================================================= */
 
 .home_container {
-    position: relative;
+    // position: relative;
     @include flex-center(column);
     justify-content: flex-start;
     gap: 0;
     width: 100%;
-    min-height: 100vh;
+    //WARN: turns out Any ancestor with height: 100% or overflow: hidden/auto/scroll might make position: sticky stop working.
+    // Which is what we have for the header. min-height of 100vh will do fine in this case
     height: 100%;
+    min-height: 100vh;
 
     .page_content {
         @include flex-center(column);   
         justify-content: flex-start;     
         width: 100%;
-        height: 100vh;
         background-color: blue;
+        // This is important since the header has position: fixed - hiding some page content
+        padding-top: $nav-height-desktop;
+        min-height: 100vh;
     }
 }

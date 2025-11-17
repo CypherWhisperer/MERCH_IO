@@ -1,6 +1,7 @@
 // Main Navigation Styling
 @use "../../assets/styles/_core.scss" as *;
 @use "../../assets/styles/_mixins.scss" as *;
+@use "../../assets/styles/_variables.scss" as *;
 
 /*================================================= */
 
@@ -13,13 +14,6 @@ $primary-color: antiquewhite;
 
 // CUSTOM PAGE BORDER RADIUS
 $svg-dimensions: 1rem;
-
-// MAIN NAVIGATION (With drop downs)
-$nav-height-desktop: 4rem;
-$nav-height-mobile: 3.5rem;
-$nav-max-height-desktop: max-content;
-$nav-max-height-mobile: max-content;
-$main-nav-height: 4rem;
 
 // MOBILE NAVIGATION
 // Key design decisions (brief): 
@@ -84,17 +78,44 @@ header.nav {
   }
 }
 
+// I want the header to expand/contract dynamically (using flex: 1) to reveal dropdown content,
+// while also staying stuck to the top - A fascinating challenge.
+// At first, I thought position: sticky would do the trick but: 
+// The issue is that position: sticky and flex: 1 are fundamentally incompatible in the way we'd beusing them.
+// But there's a solution: nstead of sticky, use position: fixed and let the header grow/shrink naturally:
+// have the height as auto, and then set the min and max bounds for the height
+// From the Page's side, have the sibling to the header take on a padding-top of the same height as header
+
+//NOTE: SOME NOTES
+//  flex: 1 + position: sticky = conflict because:
+//    flex: 1 says "grow/shrink to fill available space in your flex container"
+//    position: sticky says "stick to the viewport when scrolling, relative to my normal document flow position"
+//
+//  When combined, the browser gets confused about what "normal position" even means if the element is constantly 
+//  trying to resize within a flex context. position: fixed was the answer because it:
+//    Removes the element from document flow entirely (no flex conflicts)
+//    Locks it to the viewport (exactly what you wanted)
+//    Still allows the element itself to use flex internally and grow/shrink its height
+
+
 header.nav {
-  position: sticky;
-  background-color: $primary-color;
+  position: fixed;
+  flex: 1;
   @include flex-center(column);
   gap: 0;
-  flex: 1;
   top: 0;
+  left: 0;
+  z-index: 100;
   width: 100%;
-  height: $nav-height-desktop;
+  height: auto;
+  min-height: $nav-height-desktop;
   max-height: $nav-max-height-desktop;
+  background-color: $primary-color;
   transition: all 0.4s ease-in-out;
+
+  .logo{
+    color: #000;
+  }
 
   .svgs_container {
     @include flex-center();
@@ -135,6 +156,7 @@ header.nav {
             height: 1rem;
 
             .arrow {
+                color: #000;
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -341,7 +363,7 @@ header.nav {
     }
   }
 
-  .drop_down_wrapper {
+  .drop_down_wrapper {    
     @include flex-center;    
     position: relative;
     // Keeping the wrapper's max-height as max-content or auto so
@@ -350,7 +372,8 @@ header.nav {
     max-height: max-content; // max-content/ auto will still work fine
     width: 100%;
     justify-content: flex-start;
-    overflow: hidden;
+    // overflow: hidden;
+    // overflow: visible;
     padding-top: 0;
     padding-bottom: 0;
     transition:

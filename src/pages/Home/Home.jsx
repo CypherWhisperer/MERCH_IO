@@ -11,6 +11,9 @@ export default function Home() {
       <div className={styles.page_content}>        
         <h1>Home Page</h1>
         <Footer />
+        {/* More to get scrolling area  */}
+        <Footer />
+        <Footer />        
       </div>
     </article>
   )

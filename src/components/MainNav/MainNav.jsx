@@ -23,7 +23,7 @@ export default function Nav(){
           onMouseLeave={() => {
             hoverTimout.current = setTimeout(() => {
               setHeaderHovered(false);
-              setHoveredDropDown(null); //resetting the drop down when mouse leaves header entirely
+              setHoveredDropDown(null);  //resetting the drop down when mouse leaves header entirely
             }, 285); // small delay
           }}
           onMouseEnter={() => {
@@ -32,7 +32,7 @@ export default function Nav(){
           }}
         >
             <nav className={styles.main_navigation}>
-              <h1>M</h1>
+              <h1 className={styles.logo} >M</h1>
               {isMobile
                 ? (
                     <>

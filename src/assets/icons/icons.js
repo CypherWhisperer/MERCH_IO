@@ -27,6 +27,7 @@ import {
     FaCartShopping,
     FaGear,
     FaArrowRightLong,
+    FaPhone,
 } from "react-icons/fa6";
 
 // AI
@@ -50,7 +51,8 @@ import {
 
 // IO
 import {
-     IoLogoWhatsapp 
+     IoLogoWhatsapp,
+     IoMdMail,
 } from "react-icons/io";
 
 // IO5
@@ -88,4 +90,8 @@ export {
     FaArrowLeft,
     FaRegEye,
     FaRegEyeSlash,
+
+    // FOOTER
+    FaPhone,
+    IoMdMail,
 }

@@ -20,6 +20,25 @@
   /* pointer-events: none; */
 }
 
+body {
+  /* Preventing Over-Scroll (Elastic/Bounce Effect)
+      The "negative space" is called elastic scrolling or bounce scrolling - common on mobile browsers.
+      Here's how to prevent it -f so needed:     
+
+         overscroll-behavior: none;  // Prevents bounce/over-scroll
+         // OR for more control:
+         overscroll-behavior-y: none;  // Only prevent vertical over-scroll
+         overscroll-behavior-x: auto;  // Allow horizontal if needed
+
+      What overscroll-behavior does:
+         none - Completely disables the bounce/elastic effect
+         contain - Prevents scroll chaining but keeps bounce within element
+         auto - Default browser behavior
+  */
+  width: 100%;
+  height: 100%;
+}
+
 img {
   height: 100%;
   width: 100%;
