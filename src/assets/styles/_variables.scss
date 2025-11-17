@@ -1,6 +1,10 @@
 // This File is a Scss partial containing the variables used in this project 
 // Both CSS and Scss variables 
 
+// Dart Sass - as of writting this - is deprecating the old global functions. 
+// We need to use the new module system.
+@use "sass:color";
+
 :root {
   font-family: Poppins, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

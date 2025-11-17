@@ -9,7 +9,8 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/merch_io/",
+  // base: "/merch_io/",
+  base: "/",
   plugins: [
     react(),
     tailwindcss(),

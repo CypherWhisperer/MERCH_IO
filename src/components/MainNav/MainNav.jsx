@@ -147,11 +147,13 @@ function DropDown({hoveredDropDown, setHoveredDropDown, target, name, hasDropDow
         // onMouseLeave={() => setHoveredDropDown(null)}
       >
         <Link to={target}> {name} </Link>
-        <span className={styles.arrow_wrapper}>
-            {hasDropDown &&
-              <RiArrowDownSLine className={`${styles.arrow} ${isHovered ? styles.rotated : ''}`}/> 
-            }
-        </span>
+        {/* {hasDropDown && */}
+          <span className={styles.arrow_wrapper}>
+              {hasDropDown &&
+                <RiArrowDownSLine className={`${styles.arrow} ${isHovered ? styles.rotated : ''}`}/> 
+              }
+          </span>
+        {/* } */}
       </li>
     )
 }

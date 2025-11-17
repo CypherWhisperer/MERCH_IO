@@ -1,6 +1,10 @@
 // This File is a Scss Partial containing definitions for commonly used set of properties
 // to better improve development and modularity in styling.
 
+// Dart Sass - as of writting this - is deprecating the old global functions. 
+// We need to use the new module system.
+@use "sass:color";
+
 %flex-center-all {
   display: flex;
   align-items: center;
