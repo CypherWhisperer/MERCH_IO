@@ -16,7 +16,7 @@ import {
 
 // Decalring and exporting the routes array
 export const routes = [
-  { path: "/", element: <Landing /> },
+  { path: "/", element: <Home /> },
   { path: "/signUpIn", element: <SignUpIn /> },
   { path: "/home", element: <Home /> },
   { path: "/product", element: <Product /> },
